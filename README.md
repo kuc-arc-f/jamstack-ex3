@@ -39,6 +39,9 @@ yarn deploy
 ***
 ### Blog : 
 
+* SSGコンパイル時に。jsonファイルを読み込んで 無料サイト公開する例 
+
+https://note.com/knaka0209/n/n859ad62e8173
 
 ***
 
