@@ -54,8 +54,8 @@ export default {
   get_category_items: function(items, id){
     var ret = [];
     items.forEach(function(item){
-//console.log(item.category_id );
-      if(item.category_id === String(id) ){
+//console.log(item.category.save_id);
+      if(item.category.save_id === String(id) ){
         ret.push(item)
       }
     });

@@ -8,13 +8,15 @@ import LibPagenate from '../libs/LibPagenate'
 import LibCms from '../libs/LibCms'
 import IndexRow from './IndexRow';
 import PagesRow from './PagesRow';
+import CategoryRow from './CategoryRow';
 //
 function Page(data) {
   var items = data.blogs
   var json = data.json
   var page_items = json.page_items
+  var category_items = json.category_items
 //  var paginateDisp = data.display
-//console.log( page_items )
+// console.log( category_items )
   return (
   <Layout>
     <Head><title key="title">{data.site_name}</title></Head>      
@@ -29,16 +31,28 @@ function Page(data) {
               <div className="page_btn_wrap mb-0">
               {page_items.map((item, index) => {
   // console.log(item.show_id ,item.created_at )
-  //                var category_name = ""
               return (<PagesRow save_id={item.save_id} key={index} 
                 title={item.title} />) 
               })}
               </div>
             </div>
           </div>
-        </div>          
-
-
+          <div className="category_wrap">
+            <div className="row conte mt-2 mb-4">
+              <div className="col-sm-12">
+                <h2 className="h4_td_title mt-2" >Category</h2>
+                <div className="category_btn_wrap mb-0">
+                {category_items.map((item, index) => {
+// console.log(item )
+                  return (<CategoryRow id={item.save_id} key={index} 
+                    name={item.name} />
+                  )
+                })}                    
+                </div>
+              </div>
+            </div>
+          </div>          
+        </div>
         </div>
         <div className="body_wrap">
           <div id="post_items_box" className="row conte mt-2 mb-4">
@@ -76,8 +90,6 @@ export const getStaticProps = async context => {
     props : {
       blogs: items,
       json: json,
-//      page_items: jsonPages,
-//      category_items: jsonCategory,
       site_name : process.env.MY_SITE_NAME,
       info_text : "Sample CMSの関連記事を公開予定しております。",        
 //      display: display
