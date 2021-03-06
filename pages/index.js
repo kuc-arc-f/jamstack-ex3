@@ -3,6 +3,7 @@ import Head from 'next/head';
 
 import Layout from '../components/layout'
 import TopHeadBox from '../components/TopHeadBox'
+import PagingBox from '../components/PagingBox'
 import LibCommon from '../libs/LibCommon'
 import LibPagenate from '../libs/LibPagenate'
 import LibCms from '../libs/LibCms'
@@ -15,8 +16,8 @@ function Page(data) {
   var json = data.json
   var page_items = json.page_items
   var category_items = json.category_items
-//  var paginateDisp = data.display
-// console.log( category_items )
+  var paginateDisp = data.display
+// console.log( items )
   return (
   <Layout>
     <Head><title key="title">{data.site_name}</title></Head>      
@@ -71,6 +72,7 @@ function Page(data) {
               )
             })}
             <hr />
+            <PagingBox page="1" paginateDisp={paginateDisp} />
           </div>
         </div>          
       </div>
@@ -78,21 +80,25 @@ function Page(data) {
   </Layout>
   )
 }
+//
 export const getStaticProps = async context => {
   var dt = LibCommon.formatDate( new Date(), "YYYY-MM-DD_hhmmss");
   var url = process.env.MY_JSON_URL+ '?' + dt
   const req = await fetch( url );
   const json = await req.json();  
   var items = json.items 
+//console.log("len=" , items.length )
   items =  LibCommon.get_reverse_items(items)
-//console.log( json.items )
+  LibPagenate.init()
+  items = LibPagenate.getOnepageItems(items, 0 , 10)
+  var display = LibPagenate.is_paging_display(items.length)      
   return {
     props : {
       blogs: items,
       json: json,
       site_name : process.env.MY_SITE_NAME,
       info_text : "Sample CMSの関連記事を公開予定しております。",        
-//      display: display
+      display: display
     }
   };
 }
